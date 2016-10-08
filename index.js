@@ -3,6 +3,8 @@ const sass = Promise.promisifyAll(require('node-sass'));
 const express = require('express');
 const app = express();
 
+const port = process.env.PORT || 3000;
+
 app.use(express.static('public'));
 
 app.get('/test', (req, res) => {
@@ -14,6 +16,6 @@ app.get('/test', (req, res) => {
     });
 });
 
-app.listen(3000, function () {
+app.listen(port, function () {
     console.log('Running on localhost:3000');
 });
