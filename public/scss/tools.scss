@@ -1,0 +1,61 @@
+@import "tools.bourbon";
+
+@mixin border-box {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+@mixin transform ($value) {
+  -moz-transform: $value;
+  -ms-transform: $value;
+  -o-transform: $value;
+  -webkit-transform: $value;
+  transform: $value;
+}
+
+@mixin transition ($property: all, $duration: 0.5s, $ease: ease, $delay: 0s) {
+  -moz-transition: $property $duration $ease $delay;
+  -o-transition: $property $duration $ease $delay;
+  -webkit-transition: $property $duration $ease $delay;
+  transition: $property $duration $ease $delay;
+}
+
+@mixin font-antialiasing {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@mixin center-block {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  @include transform(translate(-50%, -50%));
+}
+
+@mixin optional-at-root($sel) {
+  @at-root #{if(not &, $sel, selector-append(&, $sel))} {
+    @content;
+  }
+}
+
+@mixin placeholder {
+  @include optional-at-root('::-webkit-input-placeholder') {
+    @content;
+  }
+
+  @include optional-at-root(':-moz-placeholder') {
+    @content;
+  }
+
+  @include optional-at-root('::-moz-placeholder') {
+    @content;
+  }
+
+  @include optional-at-root(':-ms-input-placeholder') {
+    @content;
+  }
+}
+
+
