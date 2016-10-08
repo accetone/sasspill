@@ -18,5 +18,8 @@
     "bluebird": "^3.4.6",
     "node-sass": "^3.10.1",
     "bourbon": "^4.2.7"
+  },
+  "scripts": {
+    "start": "node index.js"
   }
 }
