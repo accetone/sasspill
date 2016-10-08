@@ -1,0 +1,22 @@
+{
+  "name": "sasspill",
+  "version": "0.1.0",
+  "devDependencies": {
+    "batchfile": "^0.1.2",
+    "browser-sync": "^2.16.0",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-csso": "^2.0.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^2.3.2",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-uglify": "^2.0.0",
+    "gulp-util": "^3.0.7"
+  },
+  "dependencies": {
+    "express": "^4.14.0",
+    "bluebird": "^3.4.6",
+    "node-sass": "^3.10.1",
+    "bourbon": "^4.2.7"
+  }
+}
