@@ -1,21 +1,15 @@
-const Promise = require('bluebird');
-const sass = Promise.promisifyAll(require('node-sass'));
 const express = require('express');
+const bodyParser = require('body-parser');
+
 const app = express();
+const api = require('./api');
 
 const port = process.env.PORT || 3000;
 
 app.use(express.static('public'));
-
-app.get('/test', (req, res) => {
-    sass.renderAsync({
-        data: '@import "bourbon"; body { @include transform(translateX(50%)); }',
-        includePaths: require("bourbon").includePaths
-    }).then((result) => {
-        res.end(result.css);
-    });
-});
+app.use(bodyParser.json());
+app.use('/api', api);
 
 app.listen(port, function () {
-    console.log('Running on localhost:3000');
+    console.log(`Running on port ${port}`);
 });
