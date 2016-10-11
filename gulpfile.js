@@ -81,7 +81,10 @@ gulp.task('build__js', ['compile__js'], function () {
 });
 
 gulp.task('watch__js', ['build__js'], function () {
-    gulp.watch('./public/js/**/*.js', ['build__js']);
+    gulp.watch([
+        './public/js/**/*.js',
+        '!./public/js/**/*.min.js'
+    ], ['build__js']);
 });
 
 gulp.task('build__html', function () {
