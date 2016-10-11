@@ -1,3 +1,5 @@
+'use strict';
+
 const Promise = require('bluebird');
 const sass = Promise.promisifyAll(require('node-sass'));
 const Joi = Promise.promisifyAll(require('joi'));
