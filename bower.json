@@ -1,0 +1,7 @@
+{
+  "name": "sasspill",
+  "private": true,
+  "dependencies": {
+    "rxjs": "^4.1.0"
+  }
+}

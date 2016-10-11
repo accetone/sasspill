@@ -145,4 +145,17 @@ gulp.task('build__bourbon', function () {
     });
 });
 
+gulp.task('build__rxjs', function () {
+    fs.readFileAsync(`${__dirname}/bower_components/rxjs/dist/rx.lite.js`)
+        .then((file) => {
+            return fs.writeFileAsync(`${__dirname}/public/js/rx.lite.js`, file);
+        })
+        .then(() => {
+            gutil.log(gutil.colors.green('RxJs builded'));
+        })
+        .catch((error) => {
+            gutil.log('\n\n', gutil.colors.red(error), '\n\n');
+        });
+});
+
 gulp.task('watch', ['browser-sync-init', 'watch__css', 'watch__js', 'watch__html'], function() {});
