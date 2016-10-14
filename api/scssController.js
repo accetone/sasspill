@@ -22,6 +22,8 @@ const compileSchema = Joi.object().keys({
 
 const errorHandler = (res) => {
     return (error) => {
+        res.status(500);
+
         if (error.details) {
             res.json({ message: error.details[0].message })
         }
