@@ -6,6 +6,8 @@ const gulp = require('gulp'),
     sass = require('gulp-sass'),
     bourbon = require('bourbon'),
     csso = require('gulp-csso'),
+    webpack = require('gulp-webpack'),
+    webpackConfig = require('./webpack.config.js'),
     sourcemaps = require('gulp-sourcemaps'),
     rename = require('gulp-rename'),
     concat = require('gulp-concat'),
@@ -56,10 +58,17 @@ gulp.task('watch__css', ['build__css'], function () {
 });
 
 gulp.task('compile__js', function () {
-    return gulp.src([
-            './public/js/**/*.js',
-            '!./public/js/**/*.min.js'
-        ])
+    return gulp.src('./public/js/app.js')
+        .pipe(webpack(webpackConfig))
+        .on('error', function (error) {
+            bs.notify('Error bundling JSX', 5000);
+            gutil.log('\n\n', gutil.colors.red(error.stack), '\n\n');
+            this.emit('end');
+        })
+
+        .pipe(rename('bundle.js'))
+        .pipe(gulp.dest('./public/js'))
+
         .pipe(sourcemaps.init())
         .pipe(uglify())
         .on('error', function (error) {
@@ -68,11 +77,13 @@ gulp.task('compile__js', function () {
             this.emit('end');
         })
         .pipe(sourcemaps.write('.'))
+
         .pipe(rename(function (path) {
             if (path.extname === '.map') return;
 
             path.basename += '.min';
         }))
+
         .pipe(gulp.dest('./public/js'));
 });
 
@@ -146,32 +157,6 @@ gulp.task('build__bourbon', function () {
                 gutil.log('\n\n', gutil.colors.red(error), '\n\n');
             });
     });
-});
-
-gulp.task('build__rxjs', function () {
-    fs.readFileAsync(`${__dirname}/bower_components/rxjs/dist/rx.lite.js`)
-        .then((file) => {
-            return fs.writeFileAsync(`${__dirname}/public/js/rx.lite.js`, file);
-        })
-        .then(() => {
-            gutil.log(gutil.colors.green('RxJs builded'));
-        })
-        .catch((error) => {
-            gutil.log('\n\n', gutil.colors.red(error), '\n\n');
-        });
-});
-
-gulp.task('build__axios', function () {
-    fs.readFileAsync(`${__dirname}/bower_components/axios/dist/axios.js`)
-        .then((file) => {
-            return fs.writeFileAsync(`${__dirname}/public/js/axios.js`, file);
-        })
-        .then(() => {
-            gutil.log(gutil.colors.green('Axios builded'));
-        })
-        .catch((error) => {
-            gutil.log('\n\n', gutil.colors.red(error), '\n\n');
-        });
 });
 
 gulp.task('watch', ['browser-sync-init', 'watch__css', 'watch__js', 'watch__html'], function() {});
