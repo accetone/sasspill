@@ -78,7 +78,7 @@ const compile = (req, res, next) => {
     sass.renderAsync(req.compileOptions).then((result) => {
         req.result = {
             css: result.css.toString(),
-            map: result.map ? result.map.toSource() : undefined
+            map: result.map ? result.map.toString() : undefined
         };
 
         next();
