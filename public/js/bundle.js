@@ -31736,7 +31736,8 @@
 	            _react2.default.createElement('textarea', { className: 'code',
 	                disabled: !this.props.file.attributes.editable,
 	                value: this.props.file.content,
-	                onChange: this._change })
+	                onChange: this._change,
+	                onKeyDown: this._specialKeys })
 	        );
 	    },
 
@@ -31745,16 +31746,42 @@
 
 	        this._compileObservable.distinctUntilChanged().debounce(function () {
 	            return _rxjs2.default.Observable.interval(750);
-	        }).subscribe(function (value) {
-	            _this.props.compile();
+	        }).subscribe(function () {
+	            return _this.props.compile();
 	        });
 	    },
 
 	    _compileObservable: new _rxjs2.default.Subject(),
 
 	    _change: function _change(event) {
-	        _file2.default.updateContent(this.props.file.id, event.target.value);
-	        this._compileObservable.next(event.target.value);
+	        this._updateContent(this.props.file.id, event.target.value);
+	    },
+
+	    _updateContent: function _updateContent(id, content) {
+	        _file2.default.updateContent(id, content);
+	        this._compileObservable.next(content);
+	    },
+
+	    _specialKeys: function _specialKeys(event) {
+	        if (event.keyCode === 9) {
+	            event.preventDefault();
+
+	            var input = event.target;
+	            var selection = {
+	                start: input.selectionStart,
+	                end: input.selectionEnd
+	            };
+
+	            var content = this.props.file.content;
+
+	            content = content.substring(0, selection.start) + '  ' + content.substring(selection.end);
+
+	            input.value = content;
+	            input.selectionStart = selection.start + 2;
+	            input.selectionEnd = selection.start + 2;
+
+	            this._updateContent(this.props.file.id, content);
+	        }
 	    }
 	});
 
