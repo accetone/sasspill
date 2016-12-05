@@ -15,7 +15,7 @@ import TabStore from './stores/tab';
 
 import Tabs from './views/tabs';
 import Textbox from './views/textbox';
-import CompileButton from './views/compileButton';
+import Button from './views/button';
 
 FileActions.add('main', 'scss', { closable: false, editable: true });
 FileActions.add('main', 'css', { closable: false, editable: false });
@@ -32,7 +32,7 @@ const App = React.createClass({
             <div>
                 <Tabs tabs={this.state.tabs}/>
                 <Textbox file={this.state.currentFile} compile={this._autoCompile}/>
-                <CompileButton compile={this._manualCompile}/>
+                <Button onClick={this._manualCompile} className="btn__compile" text="Compile"/>
             </div>
         );
     },

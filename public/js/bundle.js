@@ -76,9 +76,9 @@
 
 	var _textbox2 = _interopRequireDefault(_textbox);
 
-	var _compileButton = __webpack_require__(852);
+	var _button = __webpack_require__(852);
 
-	var _compileButton2 = _interopRequireDefault(_compileButton);
+	var _button2 = _interopRequireDefault(_button);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -105,7 +105,7 @@
 	            null,
 	            _react2.default.createElement(_tabs2.default, { tabs: this.state.tabs }),
 	            _react2.default.createElement(_textbox2.default, { file: this.state.currentFile, compile: this._autoCompile }),
-	            _react2.default.createElement(_compileButton2.default, { compile: this._manualCompile })
+	            _react2.default.createElement(_button2.default, { onClick: this._manualCompile, className: 'btn__compile', text: 'Compile' })
 	        );
 	    },
 
@@ -49868,7 +49868,7 @@
 /* 852 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
@@ -49880,20 +49880,20 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var CompileButton = _react2.default.createClass({
-	    displayName: "CompileButton",
+	var Button = _react2.default.createClass({
+	    displayName: 'Button',
 
 	    render: function render() {
 	        return _react2.default.createElement(
-	            "div",
-	            { className: "btn btn__compile", onClick: this.props.compile },
-	            "Compile"
+	            'div',
+	            { className: 'btn ' + this.props.className, onClick: this.props.onClick },
+	            this.props.text
 	        );
 	    }
 
 	});
 
-	exports.default = CompileButton;
+	exports.default = Button;
 
 /***/ }
 /******/ ]);
