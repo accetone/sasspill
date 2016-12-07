@@ -6,13 +6,11 @@ import FileActions from '../actions/file';
 const Textbox = React.createClass({
     render: function () {
         return (
-            <div>
             <textarea className="code"
                       disabled={!this.props.file.attributes.editable}
                       value={this.props.file.content}
                       onChange={this._change}
                       onKeyDown={this._specialKeys}></textarea>
-            </div>
         );
     },
 

@@ -12,8 +12,8 @@ class TabStore extends Store {
             this.current = tab;
         }
 
-        if (this.data.length > 2) {
-            this.data.splice(this.data.length - 2, 0, tab);
+        if (this.data.length > 1) {
+            this.data.splice(this.data.length - 1, 0, tab);
         } else {
             this.data.push(tab);
         }

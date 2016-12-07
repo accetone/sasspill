@@ -5,29 +5,82 @@
   @include border-box;
 }
 
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+
+  font-family: 'Roboto Mono', monospace;
+  font-size: 12px;
+}
+
+#app, .app-root {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+textarea {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 11px;
+}
+
 .code {
   width: 100%;
-  height: 300px;
+  height: 100%;
   outline: none;
+  border: none;
+  resize: none;
+
+  padding: 48px 8px;
+
+  color: #d3d0c8;
+  background-color: #2d2d2d;
 }
 
 .tabs {
-  padding-bottom: 24px;
+  position: absolute;
+  width: 100%;
+  z-index: 1;
+  background-color: #c69;
 }
 
 .tabs__item {
   display: inline-block;
-  min-width: 70px;
-  height: 30px;
-  line-height: 30px;
+  min-width: 90px;
+  height: 40px;
+  line-height: 40px;
+  padding: 0 4px;
 
   text-align: center;
-  border-right: 2px solid black;
+  border-bottom: 2px solid transparent;
+  color: #932e62;
 
   cursor: pointer;
 }
 
 .tabs__item_active {
-  background: black;
-  color: white;
+  border-bottom-color: #852154;
+  color: #fff;
+}
+
+.tabs__add {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+
+  text-align: center;
+  color: #932e62;
+
+  cursor: pointer;
+}
+
+.tabs__close {
+  display: inline-block;
+  margin-left: 4px;
+  width: 10px;
+  text-align: right;
+  color: #932e62;
 }

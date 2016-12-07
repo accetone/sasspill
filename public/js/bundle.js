@@ -76,23 +76,17 @@
 
 	var _textbox2 = _interopRequireDefault(_textbox);
 
-	var _button = __webpack_require__(852);
-
-	var _button2 = _interopRequireDefault(_button);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	_file2.default.add('main', 'scss', { closable: false, editable: true }); // TODO:
-	// - process tab key in input - paste two spaces
+	// TODO:
+	// - styles
+	// - activate tab on create
 	// - localstorage
 	// - highlight
 	// - options
 
-	_file2.default.add('main', 'css', { closable: false, editable: false });
-	_file2.default.add('main', 'css.map', { closable: false, editable: false });
-
-	var main = _file4.default.find('main', 'scss');
-	_file2.default.updateContent(main.id, '$black: #fff;\n\nbody { color: $black; }');
+	_file2.default.add('main', 'scss', { closable: false, editable: true });
+	_file2.default.add('main', 'css', { closable: false, editable: true });
 
 	var App = _react2.default.createClass({
 	    displayName: 'App',
@@ -102,10 +96,9 @@
 
 	        return _react2.default.createElement(
 	            'div',
-	            null,
+	            { className: 'app-root' },
 	            _react2.default.createElement(_tabs2.default, { tabs: this.state.tabs }),
-	            _react2.default.createElement(_textbox2.default, { file: this.state.currentFile, compile: this._autoCompile }),
-	            _react2.default.createElement(_button2.default, { onClick: this._manualCompile, className: 'btn__compile', text: 'Compile' })
+	            _react2.default.createElement(_textbox2.default, { file: this.state.currentFile, compile: this._autoCompile })
 	        );
 	    },
 
@@ -123,8 +116,7 @@
 	        var initialState = this._getState();
 
 	        return Object.assign(initialState, {
-	            cssId: _file4.default.find('main', 'css').id,
-	            mapId: _file4.default.find('main', 'css.map').id
+	            cssId: _file4.default.find('main', 'css').id
 	        });
 	    },
 
@@ -134,11 +126,11 @@
 	    },
 
 	    _autoCompile: function _autoCompile() {
-	        _file2.default.compileAuto(this.state.files, { libs: { bourbon: true }, transform: { sourcemap: true } }, this.state.cssId, this.state.mapId);
+	        _file2.default.compileAuto(this.state.files, { libs: { bourbon: true } }, this.state.cssId);
 	    },
 
 	    _manualCompile: function _manualCompile() {
-	        _file2.default.compileManual(this.state.files, { libs: { bourbon: true }, transform: { sourcemap: true } }, this.state.cssId, this.state.mapId);
+	        _file2.default.compileManual(this.state.files, { libs: { bourbon: true } }, this.state.cssId);
 	    },
 
 	    _getState: function _getState() {
@@ -29540,17 +29532,14 @@
 	        });
 	    },
 
-	    compileAuto: function compileAuto(files, options, cssId, mapId) {
+	    compileAuto: function compileAuto(files, options, cssId) {
 	        _api2.default.compile(files, options).then(function (result) {
-	            var cssContent = void 0,
-	                mapContent = void 0;
+	            var cssContent = void 0;
 
 	            if (result.message) {
 	                cssContent = result.message;
-	                mapContent = '';
 	            } else {
 	                cssContent = result.css ? result.css : '';
-	                mapContent = result.map ? result.map : '';
 	            }
 
 	            // TODO: call FileActions.update ???
@@ -29559,38 +29548,23 @@
 	                id: cssId,
 	                content: cssContent
 	            });
-
-	            _dispatcher2.default.dispatch({
-	                actionType: _file2.default.FILE_UPDATE_CONTENT,
-	                id: mapId,
-	                content: mapContent
-	            });
 	        });
 	    },
 
-	    compileManual: function compileManual(files, options, cssId, mapId) {
+	    compileManual: function compileManual(files, options, cssId) {
 	        _api2.default.compile(files, options).then(function (result) {
-	            var cssContent = void 0,
-	                mapContent = void 0;
+	            var cssContent = void 0;
 
 	            if (result.message) {
 	                cssContent = result.message;
-	                mapContent = '';
 	            } else {
 	                cssContent = result.css ? result.css : '';
-	                mapContent = result.map ? result.map : '';
 	            }
 
 	            _dispatcher2.default.dispatch({
 	                actionType: _file2.default.FILE_UPDATE_CONTENT,
 	                id: cssId,
 	                content: cssContent
-	            });
-
-	            _dispatcher2.default.dispatch({
-	                actionType: _file2.default.FILE_UPDATE_CONTENT,
-	                id: mapId,
-	                content: mapContent
 	            });
 
 	            // TODO: call TabActions.activate ???
@@ -31510,8 +31484,8 @@
 	                this.current = tab;
 	            }
 
-	            if (this.data.length > 2) {
-	                this.data.splice(this.data.length - 2, 0, tab);
+	            if (this.data.length > 1) {
+	                this.data.splice(this.data.length - 1, 0, tab);
 	            } else {
 	                this.data.push(tab);
 	            }
@@ -31730,15 +31704,11 @@
 	    displayName: 'Textbox',
 
 	    render: function render() {
-	        return _react2.default.createElement(
-	            'div',
-	            null,
-	            _react2.default.createElement('textarea', { className: 'code',
-	                disabled: !this.props.file.attributes.editable,
-	                value: this.props.file.content,
-	                onChange: this._change,
-	                onKeyDown: this._specialKeys })
-	        );
+	        return _react2.default.createElement('textarea', { className: 'code',
+	            disabled: !this.props.file.attributes.editable,
+	            value: this.props.file.content,
+	            onChange: this._change,
+	            onKeyDown: this._specialKeys });
 	    },
 
 	    componentDidMount: function componentDidMount() {
@@ -49890,37 +49860,6 @@
 	}(AsyncScheduler_1.AsyncScheduler));
 	exports.AnimationFrameScheduler = AnimationFrameScheduler;
 	//# sourceMappingURL=AnimationFrameScheduler.js.map
-
-/***/ },
-/* 852 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _react = __webpack_require__(298);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var Button = _react2.default.createClass({
-	    displayName: 'Button',
-
-	    render: function render() {
-	        return _react2.default.createElement(
-	            'div',
-	            { className: 'btn ' + this.props.className, onClick: this.props.onClick },
-	            this.props.text
-	        );
-	    }
-
-	});
-
-	exports.default = Button;
 
 /***/ }
 /******/ ]);

@@ -36,17 +36,15 @@ const FileActions = {
         });
     },
 
-    compileAuto: function (files, options, cssId, mapId) {
+    compileAuto: function (files, options, cssId) {
         Api.compile(files, options)
             .then((result) => {
-                let cssContent, mapContent;
+                let cssContent;
 
                 if (result.message) {
                     cssContent = result.message;
-                    mapContent = '';
                 } else {
                     cssContent = result.css ? result.css : '';
-                    mapContent = result.map ? result.map : '';
                 }
 
                 // TODO: call FileActions.update ???
@@ -55,38 +53,24 @@ const FileActions = {
                     id: cssId,
                     content: cssContent
                 });
-
-                Dispatcher.dispatch({
-                    actionType: FileConstants.FILE_UPDATE_CONTENT,
-                    id: mapId,
-                    content: mapContent
-                });
             });
     },
 
-    compileManual: function (files, options, cssId, mapId) {
+    compileManual: function (files, options, cssId) {
         Api.compile(files, options)
             .then((result) => {
-                let cssContent, mapContent;
+                let cssContent;
 
                 if (result.message) {
                     cssContent = result.message;
-                    mapContent = '';
                 } else {
                     cssContent = result.css ? result.css : '';
-                    mapContent = result.map ? result.map : '';
                 }
 
                 Dispatcher.dispatch({
                     actionType: FileConstants.FILE_UPDATE_CONTENT,
                     id: cssId,
                     content: cssContent
-                });
-
-                Dispatcher.dispatch({
-                    actionType: FileConstants.FILE_UPDATE_CONTENT,
-                    id: mapId,
-                    content: mapContent
                 });
 
                 // TODO: call TabActions.activate ???
