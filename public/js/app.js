@@ -1,8 +1,3 @@
-// TODO:
-// - activate tab on create
-// - localstorage
-// - options
-
 import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';

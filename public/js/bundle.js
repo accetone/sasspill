@@ -78,11 +78,6 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	// TODO:
-	// - activate tab on create
-	// - localstorage
-	// - options
-
 	_file2.default.add('main', 'scss', { closable: false, editable: true });
 	_file2.default.add('main', 'css', { closable: false, editable: true });
 
@@ -31186,10 +31181,6 @@
 	var _tab = __webpack_require__(506);
 
 	var _tab2 = _interopRequireDefault(_tab);
-
-	var _file3 = __webpack_require__(474);
-
-	var _file4 = _interopRequireDefault(_file3);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

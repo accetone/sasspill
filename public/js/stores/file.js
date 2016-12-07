@@ -2,7 +2,6 @@ import Store from './store';
 import Dispatcher from '../dispatcher';
 import FileConstants from '../constants/file';
 import TabActions from '../actions/tab';
-import FileActions from '../actions/file';
 
 class FileStore extends Store {
     find(name, extension) {
