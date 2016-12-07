@@ -29588,8 +29588,6 @@
 	    },
 
 	    dispatch: function dispatch(action) {
-	        console.log(action);
-
 	        for (var i = 0; i < this.subscribers.length; i++) {
 	            this.subscribers[i](action);
 	        }

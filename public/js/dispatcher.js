@@ -6,8 +6,6 @@ const Dispatcher = {
     },
 
     dispatch: function (action) {
-        console.log(action);
-
         for (let i = 0; i < this.subscribers.length; i++)
             this.subscribers[i](action);
     }
