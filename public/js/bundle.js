@@ -85,8 +85,6 @@
 	    displayName: 'App',
 
 	    render: function render() {
-	        console.log(this.state);
-
 	        return _react2.default.createElement(
 	            'div',
 	            { className: 'app-root' },

@@ -15,8 +15,6 @@ FileActions.add('main', 'css', { closable: false, editable: true });
 
 const App = React.createClass({
     render: function () {
-        console.log(this.state);
-
         return (
             <div className="app-root">
                 <Tabs tabs={this.state.tabs}/>
