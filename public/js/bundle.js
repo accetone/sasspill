@@ -79,10 +79,8 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	// TODO:
-	// - styles
 	// - activate tab on create
 	// - localstorage
-	// - highlight
 	// - options
 
 	_file2.default.add('main', 'scss', { closable: false, editable: true });
@@ -31189,6 +31187,10 @@
 
 	var _tab2 = _interopRequireDefault(_tab);
 
+	var _file3 = __webpack_require__(474);
+
+	var _file4 = _interopRequireDefault(_file3);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -31226,20 +31228,25 @@
 	    switch (action.actionType) {
 	        case _file2.default.FILE_ADD:
 	            {
-	                // TODO: if duplicate just activate tab
-	                var file = {
-	                    name: action.name,
-	                    extension: action.extension,
-	                    attributes: action.attributes,
-	                    content: ''
-	                };
+	                var file = fileStore.find(action.name, action.extension);
 
-	                if (file.extension === 'scss' && file.name.endsWith('.scss')) {
-	                    file.name = file.name.substr(0, file.name.length - 5);
+	                if (!file) {
+	                    file = {
+	                        name: action.name,
+	                        extension: action.extension,
+	                        attributes: action.attributes,
+	                        content: ''
+	                    };
+
+	                    if (file.extension === 'scss' && file.name.endsWith('.scss')) {
+	                        file.name = file.name.substr(0, file.name.length - 5);
+	                    }
+
+	                    fileStore.add(file);
+	                    _tab2.default.add(file.name + '.' + file.extension, file);
 	                }
 
-	                fileStore.add(file);
-	                _tab2.default.add(file.name + '.' + file.extension, file);
+	                _tab2.default.activate(file.id);
 
 	                break;
 	            }

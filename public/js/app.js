@@ -1,8 +1,6 @@
 // TODO:
-// - styles
 // - activate tab on create
 // - localstorage
-// - highlight
 // - options
 
 import 'babel-polyfill';
