@@ -14,7 +14,7 @@
 You can use `sasspill` as external API to compile your SASS code.
 
 ```
-POST /api/scss
+POST https://sasspill.herokuapp.com/api/scss
 ```
 
 In: 
