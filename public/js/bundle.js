@@ -92,18 +92,24 @@
 	            'div',
 	            { className: 'app-root' },
 	            _react2.default.createElement(_tabs2.default, { tabs: this.state.tabs }),
-	            _react2.default.createElement(_textbox2.default, { file: this.state.currentFile, compile: this._autoCompile })
+	            _react2.default.createElement(_textbox2.default, { ref: 'textbox', file: this.state.currentFile, compile: this._autoCompile })
 	        );
 	    },
 
 	    componentDidMount: function componentDidMount() {
 	        _tab2.default.subscribe(this._onChange);
 	        _file4.default.subscribe(this._onChange);
+
+	        this.componentDidUpdate();
 	    },
 
 	    componentWillUnmount: function componentWillUnmount() {
 	        _tab2.default.unsubscribe(this._onChange);
 	        _file4.default.unsubscribe(this._onChange);
+	    },
+
+	    componentDidUpdate: function componentDidUpdate() {
+	        _reactDom2.default.findDOMNode(this.refs.textbox).focus();
 	    },
 
 	    getInitialState: function getInitialState() {

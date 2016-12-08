@@ -21,7 +21,7 @@ const App = React.createClass({
         return (
             <div className="app-root">
                 <Tabs tabs={this.state.tabs}/>
-                <Textbox file={this.state.currentFile} compile={this._autoCompile}/>
+                <Textbox ref="textbox" file={this.state.currentFile} compile={this._autoCompile}/>
             </div>
         );
     },
@@ -29,11 +29,17 @@ const App = React.createClass({
     componentDidMount: function() {
         TabStore.subscribe(this._onChange);
         FileStore.subscribe(this._onChange);
+
+        this.componentDidUpdate();
     },
 
     componentWillUnmount: function() {
         TabStore.unsubscribe(this._onChange);
         FileStore.unsubscribe(this._onChange);
+    },
+
+    componentDidUpdate: function () {
+        ReactDOM.findDOMNode(this.refs.textbox).focus();
     },
 
     getInitialState: function () {
