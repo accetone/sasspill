@@ -13,6 +13,9 @@ import Textbox from './views/textbox';
 FileActions.add('main', 'scss', { closable: false, editable: true });
 FileActions.add('main', 'css', { closable: false, editable: true });
 
+const mainSassFile = FileStore.find('main', 'scss');
+TabStore.activate(mainSassFile.id);
+
 const App = React.createClass({
     render: function () {
         return (

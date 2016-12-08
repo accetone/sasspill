@@ -81,6 +81,9 @@
 	_file2.default.add('main', 'scss', { closable: false, editable: true });
 	_file2.default.add('main', 'css', { closable: false, editable: true });
 
+	var mainSassFile = _file4.default.find('main', 'scss');
+	_tab2.default.activate(mainSassFile.id);
+
 	var App = _react2.default.createClass({
 	    displayName: 'App',
 
