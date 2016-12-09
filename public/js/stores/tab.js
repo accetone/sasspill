@@ -29,6 +29,15 @@ class TabStore extends Store {
     getCurrent() {
         return this.current;
     }
+
+    remove(id) {
+        if (this.current.id === id) {
+            this.current = this.data[0];
+            this.current.active = true;
+        }
+
+        super.remove(id);
+    }
 }
 
 const tabStore = new TabStore();

@@ -30157,6 +30157,8 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+	var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
 	var _store = __webpack_require__(493);
 
 	var _store2 = _interopRequireDefault(_store);
@@ -30218,6 +30220,16 @@
 	        key: 'getCurrent',
 	        value: function getCurrent() {
 	            return this.current;
+	        }
+	    }, {
+	        key: 'remove',
+	        value: function remove(id) {
+	            if (this.current.id === id) {
+	                this.current = this.data[0];
+	                this.current.active = true;
+	            }
+
+	            _get(TabStore.prototype.__proto__ || Object.getPrototypeOf(TabStore.prototype), 'remove', this).call(this, id);
 	        }
 	    }]);
 
