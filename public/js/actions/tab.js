@@ -30,13 +30,6 @@ const TabActions = {
             actionType: TabConstants.TAB_ACTIVATE,
             id: id
         });
-    },
-
-    restore: function (tabs) {
-        Dispatcher.dispatch({
-            actionType: TabConstants.TABS_RESTORE,
-            tabs: tabs
-        });
     }
 };
 

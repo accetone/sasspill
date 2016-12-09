@@ -78,6 +78,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	_file2.default.restore();
 	_file2.default.add('main', 'scss', { closable: false, editable: true });
 	_file2.default.add('main', 'css', { closable: false, editable: true });
 
@@ -28246,6 +28247,12 @@
 	        });
 	    },
 
+	    restore: function restore() {
+	        _dispatcher2.default.dispatch({
+	            actionType: _file2.default.FILES_RESTORE
+	        });
+	    },
+
 	    compileAuto: function compileAuto(files, options, cssId) {
 	        _api2.default.compile(files, options).then(function (result) {
 	            var cssContent = void 0;
@@ -28331,6 +28338,7 @@
 	    FILE_UPDATE_CONTENT: 'FILE_UPDATE_CONTENT',
 	    FILE_UPDATE_NAME: 'FILE_UPDATE_NAME',
 	    FILE_DELETE: 'FILE_DELETE',
+	    FILES_RESTORE: 'FILES_RESTORE',
 	    COMPILE_AUTO: 'COMPILE_AUTO',
 	    COMPILE_MANUAL: 'COMPILE_MANUAL'
 	};
@@ -28350,8 +28358,7 @@
 	    TAB_ADD: 'TAB_ADD',
 	    TAB_RENAME: 'TAB_RENAME',
 	    TAB_CLOSE: 'TAB_CLOSE',
-	    TAB_ACTIVATE: 'TAB_ACTIVATE',
-	    TABS_RESTORE: 'TABS_RESTORE'
+	    TAB_ACTIVATE: 'TAB_ACTIVATE'
 	};
 
 	exports.default = TabConstants;
@@ -29902,11 +29909,51 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var LocalStore = function () {
+	    function LocalStore() {
+	        _classCallCheck(this, LocalStore);
+
+	        this.isSupported = this.isSupportLocalStorage();
+	        this.storage = window.localStorage;
+	        this.key = 'files';
+	    }
+
+	    _createClass(LocalStore, [{
+	        key: 'isSupportLocalStorage',
+	        value: function isSupportLocalStorage() {
+	            try {
+	                window.localStorage.setItem('test', 'test');
+	                window.localStorage.removeItem('test');
+
+	                return true;
+	            } catch (exception) {
+	                return false;
+	            }
+	        }
+	    }, {
+	        key: 'save',
+	        value: function save(files) {
+	            if (!this.isSupported) return;
+
+	            this.storage[this.key] = JSON.stringify(files);
+	        }
+	    }, {
+	        key: 'get',
+	        value: function get() {
+	            if (!this.isSupported || !this.storage[this.key]) return;
+
+	            return JSON.parse(this.storage[this.key]);
+	        }
+	    }]);
+
+	    return LocalStore;
+	}();
 
 	var FileStore = function (_Store) {
 	    _inherits(FileStore, _Store);
@@ -29932,6 +29979,7 @@
 	}(_store2.default);
 
 	var fileStore = new FileStore();
+	var localStore = new LocalStore();
 
 	_dispatcher2.default.subscribe(function (action) {
 	    switch (action.actionType) {
@@ -29953,6 +30001,8 @@
 
 	                    fileStore.add(file);
 	                    _tab2.default.add(file.name + '.' + file.extension, file);
+
+	                    localStore.save(fileStore.getAll());
 	                }
 
 	                _tab2.default.activate(file.id);
@@ -29967,6 +30017,8 @@
 	                    content: action.content
 	                });
 
+	                localStore.save(fileStore.getAll());
+
 	                break;
 	            }
 
@@ -29977,12 +30029,30 @@
 	                    name: action.name
 	                });
 
+	                localStore.save(fileStore.getAll());
+
 	                break;
 	            }
 
 	        case _file2.default.FILE_DELETE:
 	            {
 	                fileStore.remove(action.id);
+
+	                localStore.save(fileStore.getAll());
+
+	                break;
+	            }
+
+	        case _file2.default.FILES_RESTORE:
+	            {
+	                var files = localStore.get();
+
+	                if (!files) return;
+
+	                for (var i = 0; i < files.length; i++) {
+	                    fileStore.add(files[i]);
+	                    _tab2.default.add(files[i].name + '.' + files[i].extension, files[i]);
+	                }
 
 	                break;
 	            }
@@ -30133,13 +30203,6 @@
 	            actionType: _tab2.default.TAB_ACTIVATE,
 	            id: id
 	        });
-	    },
-
-	    restore: function restore(tabs) {
-	        _dispatcher2.default.dispatch({
-	            actionType: _tab2.default.TABS_RESTORE,
-	            tabs: tabs
-	        });
 	    }
 	};
 
@@ -30269,13 +30332,6 @@
 	            {
 	                tabStore.remove(action.id);
 	                _file2.default.delete(action.id);
-
-	                break;
-	            }
-
-	        // or files restore
-	        case _tab2.default.TABS_RESTORE:
-	            {
 
 	                break;
 	            }

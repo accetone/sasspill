@@ -73,13 +73,6 @@ Dispatcher.subscribe((action) => {
             break;
         }
 
-        // or files restore
-        case TabConstants.TABS_RESTORE: {
-
-
-            break;
-        }
-
         default: return;
     }
 

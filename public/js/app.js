@@ -10,6 +10,7 @@ import TabStore from './stores/tab';
 import Tabs from './views/tabs';
 import Textbox from './views/textbox';
 
+FileActions.restore();
 FileActions.add('main', 'scss', { closable: false, editable: true });
 FileActions.add('main', 'css', { closable: false, editable: true });
 

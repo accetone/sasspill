@@ -36,6 +36,12 @@ const FileActions = {
         });
     },
 
+    restore: function () {
+        Dispatcher.dispatch({
+            actionType: FileConstants.FILES_RESTORE
+        });
+    },
+
     compileAuto: function (files, options, cssId) {
         Api.compile(files, options)
             .then((result) => {
